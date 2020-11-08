@@ -13,7 +13,6 @@ namespace OrderShipment.Business.Processes.CreateShipment
         public DateTime ShipmentDate { get; set; }
         public DateTime DeliveryDate { get; set; }
         public string Departure { get; set; }
-        public string Destination { get; set; }
-        
+        public string Destination { get; set; }        
     }
 }
