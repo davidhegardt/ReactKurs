@@ -24,16 +24,16 @@ namespace OrderShipment
         }
         public static void AddMockData(ShipmentContext context)
         {            
-            if (context.Shipments.Any())
-            {
-                return;   // DB has been seeded.
-            }
+            //if (context.Shipments.Any())
+            //{
+            //    return;   // DB has been seeded.
+            //}
 
             var shipment = new Shipment()
             {
                 Orders = GenerateOrders(),
                 DeliveryDate = DateTime.Now.AddDays(20),
-                Departure = "Stockholm",
+                Departure = "Abisko",
                 Destination = "Greenland",
                 ShipmentDate = DateTime.Now,
             };
@@ -44,7 +44,7 @@ namespace OrderShipment
             {
                 Orders = GenerateOrders(),
                 DeliveryDate = DateTime.Now.AddDays(20),
-                Departure = "Stockholm",
+                Departure = "Bremen",
                 Destination = "New York",
                 ShipmentDate = DateTime.Now,
             };
@@ -55,7 +55,7 @@ namespace OrderShipment
             {
                 Orders = GenerateOrders(),
                 DeliveryDate = DateTime.Now.AddDays(5),
-                Departure = "Stockholm",
+                Departure = "Copenhagen",
                 Destination = "London",
                 ShipmentDate = DateTime.Now,
             };

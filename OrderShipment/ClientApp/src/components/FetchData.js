@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import Loader from 'react-loader-spinner';
+import { OrderTable } from './OrderTable';
+import { ShipmentTable } from './ShipmentTable';
 
 export class FetchData extends Component {
   static displayName = FetchData.name;
@@ -12,7 +15,6 @@ export class FetchData extends Component {
 
   componentDidMount() {
     this.populateShipmentData();
-    //this.testControllerData();
   }
 
   renderShipmentsTable(shipments) {
@@ -41,10 +43,17 @@ export class FetchData extends Component {
     });    
   }
 
+  renderShipmentTableComponent(){
+    return (
+      <ShipmentTable shipmentSend={this.state.shipments} />
+    )
+  }
+
   render() {
     let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : this.renderShipmentsTable(this.state.shipments);
+      ? <p><em><Loader /></em></p>
+      //: this.renderShipmentsTable(this.state.shipments);
+      : this.renderShipmentTableComponent();
 
     return (
       <div>
@@ -78,62 +87,6 @@ export class FetchData extends Component {
     const data = await response.json();
     console.log(data);
   }
+
 }
 
-class OrderTable extends React.Component {
-
-  constructor(props){
-     super(props);
-     console.log(this.props.orderID);
-     this.state = {orders: [], loadingOrder: true}; 
-   }
-
-   componentDidMount(){
-     this.populateOrderData(this.props.orderID);
-   }
-
-  render(){
-
-    let contents = this.state.loadingOrder
-      ? <p><em>Loading...</em></p>
-      : this.renderOrdersTable(this.state.orders);
-
-    return <div>
-      <h1>Order Table</h1> {this.props.orderID}
-      {contents}
-    </div>
-  }
-
-  renderOrdersTable(orders){
-    return orders.map((order, index)=> {
-
-      return (        
-        <table className='table table-striped' aria-labelledby="tabelLabel">
-          <thead>
-            <tr>
-              <th>OrderID</th>
-              <th>Order Date</th>
-              <th>Order Description</th>              
-            </tr>
-          </thead>
-          <tbody>            
-              <tr key={order.orderID}>
-                <td>{order.orderID}</td>
-                <td>{order.orderDate}</td>              
-                <td>{order.orderDescription}</td>
-              </tr>
-          </tbody>          
-        </table>        
-      );
-
-    });
-  }
-
-  async populateOrderData(shipmentID){
-    const response = await fetch(`order/${shipmentID}`);
-    //const response = await fetch('shipment');
-    const data = await response.json();
-    console.log(data);
-    this.setState({ orders: data, loadingOrder: false });
-  }
-}

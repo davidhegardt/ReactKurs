@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 
 import './custom.css'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class App extends Component {
   static displayName = App.name;
