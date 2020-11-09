@@ -10,6 +10,7 @@ import {
   TableSortLabel,
 } from "@material-ui/core";
 import { couldStartTrivia } from "typescript";
+import DirectionsBoatTwoTone from '@material-ui/icons/DirectionsBoatTwoTone'; 
 
 export class ShipmentTable extends Component {
   static displayName = ShipmentTable.name;
@@ -75,9 +76,10 @@ export class ShipmentTable extends Component {
     }
     return (
       <TableContainer component={Paper}>
-        <Table aria-label="simple table">
+        <Table aria-label="simple table" className="custom-table">
           <TableHead>
             <TableRow>
+              <TableCell></TableCell>
               <TableCell>
                 <TableSortLabel
                   direction={this.getSortOrder("shipmentID") ? "asc" : "desc"}
@@ -104,13 +106,14 @@ export class ShipmentTable extends Component {
                 </TableSortLabel>
               </TableCell>
             </TableRow>
-          </TableHead>
+          </TableHead>          
           <TableBody>
             {this.state.shipments.map((shipment) => (
               <TableRow key={shipment.shipmentID}>
+                <TableCell> <DirectionsBoatTwoTone color="action" fontSize="large"></DirectionsBoatTwoTone></TableCell>
                 <TableCell component="th" scope="row">
-                  {shipment.shipmentID}
-                </TableCell>
+                 {shipment.shipmentID}
+                </TableCell>                
                 <TableCell align="right">{shipment.shipmentDate}</TableCell>
                 <TableCell align="right">{shipment.departure}</TableCell>
                 <TableCell align="right">{shipment.destination}</TableCell>

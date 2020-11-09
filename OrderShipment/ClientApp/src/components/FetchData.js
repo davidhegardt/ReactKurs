@@ -44,8 +44,9 @@ export class FetchData extends Component {
   }
 
   renderShipmentTableComponent(){
+    var dataToSend  = this.state.shipments.map(ship => ({ shipmentID: ship.shipmentID, shipmentDate: ship.shipmentDate, departure : ship.departure, destination : ship.destination }));
     return (
-      <ShipmentTable shipmentSend={this.state.shipments} />
+      <ShipmentTable shipmentSend={dataToSend} />
     )
   }
 

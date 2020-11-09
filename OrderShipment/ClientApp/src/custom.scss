@@ -1,0 +1,47 @@
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1976d2;
+  border-color: #1861ac;
+}
+
+
+
+.custom-table{
+
+  thead{
+    background-color: #1f85d8;
+    color: #1b6ec2;
+
+    tr>th {
+      color: #fff;
+      &:focus {
+        color: #021a2c;
+      }
+      &:hover {
+        color: #021a2c;
+      }
+
+      span:focus {
+        color: #021a2c;
+      }
+
+      span:hover {
+        color: #021a2c;
+      }
+    }
+  }
+
+  tr:nth-child(even){
+    background-color: #e6f3ff;
+  }
+}
+

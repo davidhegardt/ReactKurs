@@ -5,7 +5,7 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 
-import './custom.css'
+import './custom.scss'
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 export default class App extends Component {
