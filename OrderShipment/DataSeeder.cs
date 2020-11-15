@@ -23,11 +23,11 @@ namespace OrderShipment
 
         }
         public static void AddMockData(ShipmentContext context)
-        {            
-            //if (context.Shipments.Any())
-            //{
-            //    return;   // DB has been seeded.
-            //}
+        {
+            if (context.Shipments.Any())
+            {
+                return;   // DB has been seeded.
+            }
 
             var shipment = new Shipment()
             {

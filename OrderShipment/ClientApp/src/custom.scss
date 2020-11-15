@@ -1,4 +1,10 @@
 /* Provide sufficient contrast against white background */
+
+$primary-light: #e9ebff;
+$primary-main: #3f50b5;
+$primary-dark: #002884;
+$secondary-light: #f73378;
+
 a {
   color: #0366d6;
 }
@@ -7,10 +13,31 @@ code {
   color: #E01A76;
 }
 
+.form-spacing-top {
+  margin-top: 16px;
+}
+
+.form-spacing-bottom {
+  margin-bottom: 16px;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1976d2;
   border-color: #1861ac;
+}
+
+.form-wrapper {
+  width: 300px;
+  border: 1px solid #d6d7da;
+  padding: 0px 15px 15px 15px;
+  border-radius: 5px;
+  font-family: arial;
+  line-height: 16px;
+  color: #333333;
+  font-size: 14px;
+  background: #ffffff;
+  margin: 100px auto;
 }
 
 
@@ -18,30 +45,30 @@ code {
 .custom-table{
 
   thead{
-    background-color: #1f85d8;
+    background-color: $primary-main;
     color: #1b6ec2;
 
     tr>th {
       color: #fff;
       &:focus {
-        color: #021a2c;
+        color: $secondary-light;
       }
       &:hover {
-        color: #021a2c;
+        color: $secondary-light;
       }
 
       span:focus {
-        color: #021a2c;
+        color: $secondary-light;
       }
 
       span:hover {
-        color: #021a2c;
+        color: $secondary-light;
       }
     }
   }
 
   tr:nth-child(even){
-    background-color: #e6f3ff;
+    background-color: $primary-light;
   }
 }
 

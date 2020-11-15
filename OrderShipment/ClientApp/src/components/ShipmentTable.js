@@ -77,7 +77,7 @@ export class ShipmentTable extends Component {
     return (
       <TableContainer component={Paper}>
         <Table aria-label="simple table" className="custom-table">
-          <TableHead>
+          <TableHead color="primary">
             <TableRow>
               <TableCell></TableCell>
               <TableCell>
@@ -110,7 +110,7 @@ export class ShipmentTable extends Component {
           <TableBody>
             {this.state.shipments.map((shipment) => (
               <TableRow key={shipment.shipmentID}>
-                <TableCell> <DirectionsBoatTwoTone color="action" fontSize="large"></DirectionsBoatTwoTone></TableCell>
+                <TableCell> <DirectionsBoatTwoTone color="$primary-dark" fontSize="large"></DirectionsBoatTwoTone></TableCell>
                 <TableCell component="th" scope="row">
                  {shipment.shipmentID}
                 </TableCell>                
