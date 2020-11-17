@@ -38,13 +38,13 @@ namespace OrderShipment.Controllers
         public async Task<Shipment> GetShipmentById([FromRoute] int shipmentID)
         {            
             return null;
-        }
+        }  
         
 
         [HttpPost("Create")]
         public IActionResult CreateShipment(CreateShipmentCommand shipment)
         {
-            _mediator.Send(shipment);
+            //_mediator.Send(shipment);
 
             return Ok();
         }
@@ -52,9 +52,10 @@ namespace OrderShipment.Controllers
         [HttpPut("Update")]
         public IActionResult UpdateShipment(UpdateShipmentCommand shipment)
         {
-            _mediator.Send(shipment);
+            //_mediator.Send(shipment);
 
             return Ok();
         }
+
     }
 }

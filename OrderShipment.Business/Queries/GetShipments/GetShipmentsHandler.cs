@@ -25,13 +25,12 @@ namespace OrderShipment.Business.Queries.GetShipments
 
             foreach(var shipment in shipments)
             {
-                var orderIDs = shipment.Orders.Select(o => o.OrderId).ToList();
                 shipmentResponseList.Add(new ShipmentResponse()
                 {
                     DeliveryDate = shipment.DeliveryDate,
                     Departure = shipment.Departure,
                     Destination = shipment.Destination,
-                    OrderNumbers = orderIDs,
+                    Orders = shipment.Orders,
                     ShipmentDate = shipment.ShipmentDate,
                     ShipmentID = shipment.ShipmentID
                 });

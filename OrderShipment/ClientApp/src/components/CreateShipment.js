@@ -4,8 +4,7 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { useEffect, useState } from "react";
 
 const CreateShipment = () => {
-  const initialFormState = {
-    shipmentID: "",
+  const initialFormState = {    
     shipmentDate: new Date(),
     departure: "",
     destination: "",
@@ -21,28 +20,33 @@ const CreateShipment = () => {
   };
 
   const submitShipment = () => {
-      console.log('submitski!');
+      if(!shipment.departure){
+        alert("You need to enter departure");
+        return;
+      }
+
+      if(!shipment.destination){
+        alert("You need to enter destination");
+        return;
+      }
+
+      PostShipment(shipment);
   }
 
   const onDateChange = (date) => {       
-      //setSelectedDate(date);
-
-      setShipment({...shipment, shipmentDate : date});
-      console.log(shipment);
+      setSelectedDate(date);
   };
 
   useEffect(() => {
-      
-  }, [shipment.shipmentDate])
+      setShipment({...shipment, shipmentDate : selectedDate});
+      console.log(shipment);
+  }, [selectedDate])
 
   return (
     <div>
       <form
         onSubmit={(event) => {
-          event.preventDefault();
-          if (!shipment.departure) return;
-            console.log('submit???');
-          // add to props ? save to db?
+          event.preventDefault();          
         }}
       >
         <Paper style={{ padding: 16 }}>
@@ -80,5 +84,24 @@ const CreateShipment = () => {
     </div>
   );
 };
+
+function PostShipment(shipment) {
+  
+  async function addShipment() {
+    fetch("shipment/Create", {
+      method: "post",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(shipment),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  }
+
+  addShipment();
+
+}
 
 export default CreateShipment;
