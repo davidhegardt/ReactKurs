@@ -2,6 +2,7 @@ import {
   Button,
   Grid,
   Paper,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -13,6 +14,8 @@ import {
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import React, { useEffect, useState } from "react";
+import Infobar from "./InfoBar";
+import ShipmentDropDown from "./ShipmentDropdown";
 
 const CreateOrder = () => {
   const [shipment, setShipment] = useState();
@@ -41,47 +44,44 @@ const CreateOrder = () => {
   const [order, setOrder] = useState(initialOrderState);
   const [itemList, setItemList] = useState(initialList);
   const [currentItem, setCurrentItem] = useState(initialItem);
-  const [, setResult] = useState({ datarows: [], loading: true });
+  const [result, setResult] = useState({ datarows: [], loading: true });
   const [isSelectedShip,setIsSelectedShip] = useState(false);
-
+  const [shipOpen, setShipOpen] = React.useState(false);
+  const [saveOrderOpen, setSaveOrderOpen] = React.useState(false);
+  const [infotext, setInfoText] = React.useState("");
 
   const onOrderChange = (event) => {
     const { name, value } = event.target;
 
     setOrder({ ...order, [name]: value });
-    console.log(order);
   };
 
   const onDateChange = (date) => {
-    //setSelectedDate(date);
-
-    setOrder({ ...order, orderDate: date });
-    console.log(order);
+    setOrder({ ...order, orderDate: date });    
   };
 
   const onItemChange = (event) => {
     const { name, value } = event.target;
 
-    setCurrentItem({ ...currentItem, [name]: value });
-    console.log(currentItem);
+    setCurrentItem({ ...currentItem, [name]: value });    
   };
 
   const saveOrder = () => {
 
-    if(!order.orderDescription){
-      console.log(false);
+    if(!order.orderDescription){      
       alert("order description missing");
       return;
     }
 
-    if(order.items.length < 1){
-      console.log(false);
+    if(order.items.length < 1){      
       alert("you must add at least 1 item");
       return;
     }
 
     if(isSelectedShip){
        UpdateShipment(shipment.shipmentID, order);
+       setInfoText("Order added to shipment");
+       setSaveOrderOpen(true);
     } else {
       alert("You must select a shipment");
     }
@@ -90,12 +90,13 @@ const CreateOrder = () => {
   const onItemAdd = () => {    
     const newList = itemList.concat(currentItem);
     setItemList(newList);
-    //setOrder({ ...order, items: itemList });
   };
 
   const callbackShip = (selectedShip) => {
     setIsSelectedShip(true);
-    setShipment(selectedShip);    
+    setInfoText("Shipment " + selectedShip.shipmentID + " selected");
+    setShipment(selectedShip);
+    setShipOpen(true);
   };
 
   useEffect(() => {
@@ -118,9 +119,27 @@ const CreateOrder = () => {
     setOrder({ ...order, items: itemList });
   }, [itemList]);
 
+  const handleCloseShipInfo = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setShipOpen(false);
+  };
+
+  const handleCloseSaveOrderInfo = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSaveOrderOpen(false);
+  };
+
+
   return (
     <div>
-      <ShipmentDropDown onShipmentChange={(s) => callbackShip(s)} />
+      <ShipmentDropDown onShipmentChange={(s) => callbackShip(s)} />      
+      <Infobar open={shipOpen} onChangero={handleCloseShipInfo} message={infotext} severity="info"></Infobar>
       <form>
         <Paper elevation={3} style={{ padding: 16 }}>
           <Grid
@@ -179,6 +198,7 @@ const CreateOrder = () => {
           <Button variant="contained" color="primary" onClick={saveOrder}>
             Add Order
           </Button>
+          <Infobar open={saveOrderOpen} onChangero={handleCloseSaveOrderInfo} message={infotext} severity="success"></Infobar>
         </Paper>
       </form>
     </div>
@@ -206,8 +226,7 @@ const AddItem = ({ item, onChange, onAdd }) => (
   </div>
 );
 
-function UpdateShipment(shipmentID, order) {
-    console.log(order);
+function UpdateShipment(shipmentID, order) {    
     async function addOrderToShipment() {
       fetch("shipment/Update", {
         method: "put",
@@ -217,73 +236,11 @@ function UpdateShipment(shipmentID, order) {
         },
         body: JSON.stringify({ shipmentID: shipmentID, newOrder: order}),
       })
-        .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then((res) => res.json())        
     }
 
     addOrderToShipment();
 
-}
-
-function ShipmentDropDown({ onShipmentChange }) {
-  const [loading, setLoading] = React.useState(true);
-  const [shipmentList, setShipmentList] = React.useState([]);
-  const [items, setItems] = React.useState([]);
-  const [value, setValue] = React.useState("");
-
-  React.useEffect(() => {
-    let unmounted = false;
-    async function getShipments() {
-      const response = await fetch("shipment");
-      const body = await response.json();
-      console.log(body);
-      if (!unmounted) {
-        setItems(
-          body.map((shipment) => ({
-            label:
-              shipment.shipmentID +
-              " - " +
-              shipment.departure +
-              "=>" +
-              shipment.destination,
-            value: shipment.shipmentID,
-          }))
-        );
-        setLoading(false);
-        setShipmentList(body);
-      }
-    }
-    getShipments();
-    return () => {
-      unmounted = true;
-    };
-  }, []);
-
-  function handleChange(e) {
-    var selectShip = shipmentList.find((x) => x.shipmentID === +e);
-    onShipmentChange(selectShip);
-    setValue(e);
-  }
-
-  return (
-    <div>
-      <label>Select Shipment to add Order to</label>
-      <div className="wrapper">
-        <select
-          disabled={loading}
-          value={value}
-          onChange={(e) => handleChange(e.currentTarget.value)}
-        >
-          <option>-- Select Shipment --</option>
-          {items.map(({ label, value }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
 }
 
 export default CreateOrder;

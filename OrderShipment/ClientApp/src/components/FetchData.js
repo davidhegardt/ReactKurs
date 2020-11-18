@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import Loader from "react-loader-spinner";
+import { ErrorBoundaryHandler } from "./ErrorBoundaryHandler";
 import { OrderTable } from "./OrderTable";
 import { ShipmentTable } from "./ShipmentTable";
 
@@ -24,7 +25,7 @@ export class FetchData extends Component {
       destination: ship.destination,
       orders: ship.orders,
     }));
-    return <ShipmentTable shipmentSend={dataToSend} />;
+    return <ErrorBoundaryHandler><ShipmentTable shipmentSend={dataToSend} /> </ErrorBoundaryHandler>;
   }
 
   render() {

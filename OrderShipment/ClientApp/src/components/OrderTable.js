@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 
+
+
 export class OrderTable extends React.Component {
   constructor(props) {
-    super(props);
-    console.log(this.props.orderID);
-    this.state = { orders: [], loadingOrder: true };
+    super(props);    
+    this.state = { orders: [], loadingOrder: true, error : null, errorInfo : null };
   }
 
   componentDidMount() {
     this.populateOrderData(this.props.orderID);
   }
+
+  
 
   render() {
     let contents = this.state.loadingOrder ? (
@@ -54,9 +57,11 @@ export class OrderTable extends React.Component {
   async populateOrderData(shipmentID) {
     fetch(`order/${shipmentID}`)
       .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
+      .then((data) => {        
         this.setState({ orders: data, loadingOrder: false });
+      })
+      .catch((error) => {
+        throw new Error(error);
       });
   }
 }

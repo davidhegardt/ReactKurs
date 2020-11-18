@@ -45,8 +45,7 @@ export class ShipmentTable extends Component {
   }
 
   switchOpen() {
-    this.setState({ open: !this.state.open });
-    console.log(this.state.open);
+    this.setState({ open: !this.state.open });    
   }
 
   sortData(propertyName) {

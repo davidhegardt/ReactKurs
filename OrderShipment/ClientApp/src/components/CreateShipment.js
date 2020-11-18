@@ -16,7 +16,7 @@ const CreateShipment = () => {
     const { name, value } = event.target;
 
     setShipment({ ...shipment, [name]: value });
-    console.log(shipment);
+    
   };
 
   const submitShipment = () => {
@@ -38,8 +38,7 @@ const CreateShipment = () => {
   };
 
   useEffect(() => {
-      setShipment({...shipment, shipmentDate : selectedDate});
-      console.log(shipment);
+      setShipment({...shipment, shipmentDate : selectedDate});      
   }, [selectedDate])
 
   return (
@@ -96,8 +95,7 @@ function PostShipment(shipment) {
       },
       body: JSON.stringify(shipment),
     })
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => res.json());      
   }
 
   addShipment();
