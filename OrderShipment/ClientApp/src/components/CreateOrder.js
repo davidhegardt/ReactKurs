@@ -154,6 +154,9 @@ const CreateOrder = () => {
                 name="orderDescription"
                 value={order.orderDescription}
                 onChange={onOrderChange}
+                inputProps={{
+                  'data-testid': 'orderDescription'
+                }}
               />
             </Grid>
             <Grid item>
@@ -163,6 +166,9 @@ const CreateOrder = () => {
                   label="Shipment Date"
                   value={order.orderDate}
                   onChange={onDateChange}
+                  inputProps={{
+                    'data-testid': 'orderDate'
+                  }}
                 />
               </MuiPickersUtilsProvider>
             </Grid>
@@ -212,6 +218,9 @@ const AddItem = ({ item, onChange, onAdd }) => (
       name="itemDescription"
       value={item.itemDescription}
       onChange={onChange}
+      inputProps={{
+        'data-testid': 'itemDescription'
+      }}
     />
     <TextField
       label="Quantity"
