@@ -44,6 +44,7 @@ describe('<CreateOrder /> Form input', () => {
         
     });
 
+    // Example of e2e testing scenario, user fills in information and presses button, error is displayed
     it('Press button when only description has value should alert error : you must add at least 1 item', async () => {       
         const { getByTestId, getByText } = render(<CreateOrder />);
         const orderDescInput = getByTestId('orderDescription');
