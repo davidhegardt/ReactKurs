@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ShipmentCountDisplay } from "./shipmentCountDisplay";
+import ShipmentCountContext from "./ShipmentCountContext";
 
 const ShipmentDropDown = ({ onShipmentChange }) => {
     const [loading, setLoading] = React.useState(true);
     const [shipmentList, setShipmentList] = React.useState([]);
     const [items, setItems] = React.useState([]);
     const [value, setValue] = React.useState("");
-  
     React.useEffect(() => {
       let unmounted = false;
       async function getShipments() {
@@ -24,7 +25,7 @@ const ShipmentDropDown = ({ onShipmentChange }) => {
               value: shipment.shipmentID,
             }))
           );
-          setLoading(false);
+          setLoading(false);          
           setShipmentList(body);
         }
       }
@@ -42,6 +43,7 @@ const ShipmentDropDown = ({ onShipmentChange }) => {
   
     return (
       <div>
+        <ShipmentCountDisplay />
         <label>Select Shipment to add Order to</label>
         <div className="wrapper">
           <select

@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import Loader from "react-loader-spinner";
 import { ErrorBoundaryHandler } from "./ErrorBoundaryHandler";
 import { OrderTable } from "./OrderTable";
+import { ShipmentCountDisplay } from "./shipmentCountDisplay";
 import { ShipmentTable } from "./ShipmentTable";
 
 export class FetchData extends Component {
@@ -43,6 +44,7 @@ export class FetchData extends Component {
       <div>
         <h1 id="tabelLabel">CQSS Shipment Manager</h1>
         <p>This component demonstrates fetching data from the server.</p>
+        <ShipmentCountDisplay />
         {contents}
       </div>
     );

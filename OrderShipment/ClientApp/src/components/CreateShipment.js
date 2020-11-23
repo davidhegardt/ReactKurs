@@ -1,7 +1,10 @@
 import { Button, Grid, Paper, TextField } from "@material-ui/core";
 import DateFnsUtils from '@date-io/date-fns';
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import ShipmentCountContext from "./ShipmentCountContext";
+import { ShipmentCountDisplay } from "./shipmentCountDisplay";
+
 
 const CreateShipment = () => {
   const initialFormState = {    
@@ -11,6 +14,7 @@ const CreateShipment = () => {
   };
   const [shipment, setShipment] = useState(initialFormState);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [language, setLanguage] = useState("en");
 
   const onInputChange = (event) => {
     const { name, value } = event.target;
@@ -43,6 +47,7 @@ const CreateShipment = () => {
 
   return (
     <div>
+      <ShipmentCountDisplay />
       <form
         onSubmit={(event) => {
           event.preventDefault();          
@@ -53,7 +58,7 @@ const CreateShipment = () => {
             <Grid item>
               <TextField
                 label="Departure"
-                name="departure"
+                name="departure"                
                 value={shipment.departure}
                 onChange={onInputChange}
               />
@@ -79,7 +84,7 @@ const CreateShipment = () => {
             <Button variant="contained" color="primary" onClick={() => submitShipment()}>Add new Shipment</Button>
           </Grid>
         </Paper>
-      </form>
+      </form>      
     </div>
   );
 };
@@ -99,7 +104,9 @@ function PostShipment(shipment) {
   }
 
   addShipment();
-
+  const shipmentCountHandler = useContext(ShipmentCountContext);
+  shipmentCountHandler.setUpdated(true);
+  
 }
 
 export default CreateShipment;

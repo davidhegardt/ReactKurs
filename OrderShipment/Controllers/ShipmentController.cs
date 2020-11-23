@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderShipment.Business.Models;
 using OrderShipment.Business.Processes.CreateShipment;
 using OrderShipment.Business.Processes.UpdateShipment;
+using OrderShipment.Business.Queries.GetOrdersForShipment;
 using OrderShipment.Business.Queries.GetShipments;
 using OrderShipment.Business.Services;
 using OrderShipment.Data;
@@ -40,6 +41,31 @@ namespace OrderShipment.Controllers
             return null;
         }  
         
+        [HttpGet("Count")]
+        public async Task<CountResponse> GetShipmentOrderCount()
+        {
+            var shipments = await _mediator.Send(new GetShipmentsQuery());
+
+            var shipmentCount = shipments.Count;
+            var ordersCount = 0;
+
+            foreach (var shipment in shipments)
+            {
+                var orderResponse = await _mediator.Send(new GetOrdersForShipmentQuery()
+                {
+                    ShipmentID = shipment.ShipmentID
+                });
+
+                var count = orderResponse.Count;
+                ordersCount = ordersCount + count;
+            }
+
+            return new CountResponse()
+            {
+                ShipmentCount = shipmentCount,
+                OrderCount = ordersCount
+            };
+        }
 
         [HttpPost("Create")]
         public IActionResult CreateShipment(CreateShipmentCommand shipment)

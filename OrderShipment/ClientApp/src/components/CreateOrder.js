@@ -13,9 +13,10 @@ import {
 } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Infobar from "./InfoBar";
 import ShipmentDropDown from "./ShipmentDropdown";
+import ShipmentCountContext from "./ShipmentCountContext";
 
 const CreateOrder = () => {
   const [shipment, setShipment] = useState();
@@ -249,6 +250,8 @@ function UpdateShipment(shipmentID, order) {
     }
 
     addOrderToShipment();
+    const shipmentCountHandler = useContext(ShipmentCountContext);
+    shipmentCountHandler.setUpdated(true);
 
 }
 
