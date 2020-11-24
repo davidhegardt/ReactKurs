@@ -1,64 +1,69 @@
 import { Button, Grid, Paper, TextField } from "@material-ui/core";
-import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from "@date-io/date-fns";
 import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import React, { useContext, useEffect, useState } from "react";
 import ShipmentCountContext from "./ShipmentCountContext";
 import { ShipmentCountDisplay } from "./shipmentCountDisplay";
-
+import axios from "axios";
 
 const CreateShipment = () => {
-  const initialFormState = {    
+  const initialFormState = {
     shipmentDate: new Date(),
     departure: "",
     destination: "",
   };
   const [shipment, setShipment] = useState(initialFormState);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [language, setLanguage] = useState("en");
+  const [selectedDate, setSelectedDate] = useState(new Date());  
+  const shipmentCountHandler = useContext(ShipmentCountContext);
 
   const onInputChange = (event) => {
     const { name, value } = event.target;
 
     setShipment({ ...shipment, [name]: value });
-    
   };
 
   const submitShipment = () => {
-      if(!shipment.departure){
-        alert("You need to enter departure");
-        return;
-      }
+    if (!shipment.departure) {
+      alert("You need to enter departure");
+      return;
+    }
 
-      if(!shipment.destination){
-        alert("You need to enter destination");
-        return;
-      }
+    if (!shipment.destination) {
+      alert("You need to enter destination");
+      return;
+    }
 
-      PostShipment(shipment);
-  }
+    PostShipment(shipment);
+    shipmentCountHandler.setUpdated(true);
+  };
 
-  const onDateChange = (date) => {       
-      setSelectedDate(date);
+  const onDateChange = (date) => {
+    setSelectedDate(date);
   };
 
   useEffect(() => {
-      setShipment({...shipment, shipmentDate : selectedDate});      
-  }, [selectedDate])
+    setShipment({ ...shipment, shipmentDate: selectedDate });
+  }, [selectedDate]);
 
   return (
     <div>
       <ShipmentCountDisplay />
       <form
         onSubmit={(event) => {
-          event.preventDefault();          
+          event.preventDefault();
         }}
       >
         <Paper style={{ padding: 16 }}>
-          <Grid container direction="column" alignItems="flex-start" spacing={2}>
+          <Grid
+            container
+            direction="column"
+            alignItems="flex-start"
+            spacing={2}
+          >
             <Grid item>
               <TextField
                 label="Departure"
-                name="departure"                
+                name="departure"
                 value={shipment.departure}
                 onChange={onInputChange}
               />
@@ -71,42 +76,43 @@ const CreateShipment = () => {
                 onChange={onInputChange}
               />
             </Grid>
-            <Grid item>              
+            <Grid item>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DateTimePicker           
-                format="MM/dd/yyyy hh:ss"
-                label="Shipment Date"
-                value={shipment.shipmentDate}
-                onChange={onDateChange}
-              />
-            </MuiPickersUtilsProvider> 
+                <DateTimePicker
+                  format="MM/dd/yyyy hh:ss"
+                  label="Shipment Date"
+                  value={shipment.shipmentDate}
+                  onChange={onDateChange}
+                />
+              </MuiPickersUtilsProvider>
             </Grid>
-            <Button variant="contained" color="primary" onClick={() => submitShipment()}>Add new Shipment</Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => submitShipment()}
+            >
+              Add new Shipment
+            </Button>
           </Grid>
         </Paper>
-      </form>      
+      </form>
     </div>
   );
 };
 
 function PostShipment(shipment) {
-  
   async function addShipment() {
-    fetch("shipment/Create", {
-      method: "post",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(shipment),
-    })
-      .then((res) => res.json());      
+    axios
+      .post("shipment/Create", shipment)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   addShipment();
-  const shipmentCountHandler = useContext(ShipmentCountContext);
-  shipmentCountHandler.setUpdated(true);
-  
 }
 
 export default CreateShipment;

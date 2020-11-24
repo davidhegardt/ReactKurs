@@ -15,9 +15,9 @@ namespace OrderShipment.Business.Processes.CreateShipment
         {
             _shipmentService = shipmentService;
         }
-        public Task<Unit> Handle(CreateShipmentCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateShipmentCommand request, CancellationToken cancellationToken)
         {
-            _shipmentService.CreateShipment(new Data.DbModels.Shipment()
+             _shipmentService.CreateShipment(new Data.DbModels.Shipment()
             {
                 DeliveryDate = request.DeliveryDate,
                 Departure = request.Departure,
@@ -26,7 +26,7 @@ namespace OrderShipment.Business.Processes.CreateShipment
                 ShipmentDate = request.ShipmentDate,
             });
 
-            return Task.FromResult(Unit.Value);
+            return await Task.FromResult(Unit.Value);
         }
     }
 }

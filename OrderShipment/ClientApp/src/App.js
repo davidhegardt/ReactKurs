@@ -10,6 +10,7 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import CreateShipment from './components/CreateShipment';
 import CreateOrder from './components/CreateOrder';
 import ShipmentCountContext from './components/ShipmentCountContext';
+import { ErrorBoundaryHandler } from './components/ErrorBoundaryHandler';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -33,10 +34,10 @@ export default class App extends Component {
     return (
       <ShipmentCountContext.Provider value={this.state}>
       <Layout>
-        <Route exact path='/' component={Home} />        
-        <Route path='/fetch-data' component={FetchData} />        
-        <Route path='/create-shipment' component={CreateShipment} />
-        <Route path='/create-order' component={CreateOrder} />
+        <ErrorBoundaryHandler> <Route exact path='/' component={Home} /> </ErrorBoundaryHandler>
+        <ErrorBoundaryHandler> <Route path='/fetch-data' component={FetchData} /> </ErrorBoundaryHandler>
+        <ErrorBoundaryHandler> <Route path='/create-shipment' component={CreateShipment} /> </ErrorBoundaryHandler>
+        <ErrorBoundaryHandler> <Route path='/create-order' component={CreateOrder} /> </ErrorBoundaryHandler>
       </Layout>
       </ShipmentCountContext.Provider>
     );

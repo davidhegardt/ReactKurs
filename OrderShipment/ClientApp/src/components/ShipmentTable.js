@@ -120,7 +120,7 @@ export class ShipmentTable extends Component {
           </TableHead>
           <TableBody>            
             {this.state.shipments.map((shipment) => (              
-              <RenderRow shipment={shipment}></RenderRow>
+              <RenderRow key={shipment.shipmentID} shipment={shipment}></RenderRow>
             ))}
           </TableBody>
         </Table>
@@ -134,12 +134,11 @@ const RenderRow = (props) => {
   const [open, setOpen] = React.useState(false);  
 
   return (
-    <React.Fragment>
-      <TableRow key={props.shipment.shipmentID}>
+    <React.Fragment key={props.shipment.shipmentID}>
+      <TableRow >
         <TableCell>
           {" "}
-          <DirectionsBoatTwoTone
-            color="$primary-dark"
+          <DirectionsBoatTwoTone            
             fontSize="large"
           ></DirectionsBoatTwoTone>
         </TableCell>

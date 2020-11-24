@@ -22,7 +22,7 @@ namespace OrderShipment.Business.Processes.UpdateShipment
 
             shipment.Orders.Add(request.NewOrder);
 
-            _shipmentService.UpdateShipment(new Data.DbModels.Shipment()
+            await _shipmentService.UpdateShipment(new Data.DbModels.Shipment()
             {
                 DeliveryDate = shipment.DeliveryDate,
                 Departure = shipment.Departure,

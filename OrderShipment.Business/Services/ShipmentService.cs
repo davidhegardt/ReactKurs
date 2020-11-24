@@ -31,13 +31,13 @@ namespace OrderShipment.Business.Services
             return shipment;
         }
 
-        public async Task CreateShipment(Shipment shipment)
+        public void CreateShipment(Shipment shipment)
         {
             if (_dbContext.Shipments.Any(s => s.ShipmentID == shipment.ShipmentID)) return;
             
-            await _dbContext.Shipments.AddAsync(shipment);
+             _dbContext.Shipments.Add(shipment);
 
-            await _dbContext.SaveChangesAsync();
+             _dbContext.SaveChanges();            
         }
 
         public async Task DeleteShipment(int shipmentID)
@@ -61,14 +61,21 @@ namespace OrderShipment.Business.Services
                             
         }
 
-        public void UpdateShipment(Shipment shipment)
+        public async Task UpdateShipment(Shipment shipment)
         {
-            if (_dbContext.Shipments.Any(s => s.ShipmentID == shipment.ShipmentID))
+            try
             {
-                _dbContext.Shipments.Update(shipment);
+                var entry = _dbContext.Shipments.First(e => e.ShipmentID == shipment.ShipmentID);
+                _dbContext.Entry(entry).CurrentValues.SetValues(shipment);
+                await _dbContext.SaveChangesAsync();
+                
             }
-            else 
+            catch (Exception e)
+            {
                 throw new KeyNotFoundException($"Shipment with Id:{shipment.ShipmentID} not found, cannot update");
+                throw e;                
+            }
+            
         }
 
         public void UpdateOrder(Order order)

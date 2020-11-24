@@ -30,12 +30,10 @@ export class FetchData extends Component {
   }
 
   render() {
-    let contents = this.state.loading ? (
-      <p>
+    let contents = this.state.loading ? (      
         <em>
           <Loader />
-        </em>
-      </p>
+        </em>      
     ) : (
       this.renderShipmentTableComponent()
     );
@@ -43,7 +41,7 @@ export class FetchData extends Component {
     return (
       <div>
         <h1 id="tabelLabel">CQSS Shipment Manager</h1>
-        <p>This component demonstrates fetching data from the server.</p>
+        This component demonstrates fetching data from the server.
         <ShipmentCountDisplay />
         {contents}
       </div>

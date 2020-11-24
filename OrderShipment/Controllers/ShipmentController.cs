@@ -70,17 +70,17 @@ namespace OrderShipment.Controllers
         [HttpPost("Create")]
         public IActionResult CreateShipment(CreateShipmentCommand shipment)
         {
-            //_mediator.Send(shipment);
+            _mediator.Send(shipment);
 
-            return Ok();
+            return Ok("Created successfully");
         }
 
         [HttpPut("Update")]
-        public IActionResult UpdateShipment(UpdateShipmentCommand shipment)
+        public async Task<IActionResult> UpdateShipment(UpdateShipmentCommand shipment)
         {
-            //_mediator.Send(shipment);
+            await _mediator.Send(shipment);
 
-            return Ok();
+            return Ok("Updated successfully");
         }
 
     }
